@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../main_screen/main_widget.dart';
 import '../password_recovery_screen/password_recovery_widget.dart';
 import '../personal_information/personal_lnformation_widget.dart';
 import '../../Theme/app_color.dart';
@@ -118,7 +119,10 @@ class LoginWidget extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => MainScreenWidget()));
+              },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
