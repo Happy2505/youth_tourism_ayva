@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:youth_tourism_ayva/home_screen/story_screen/story_widget.dart';
 import '../../Theme/app_color.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -168,65 +169,79 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget buildCardPromo(int index) {
-    return SizedBox(
-        height: 173,
-        child: Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://cdnn21.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg",
-                imageBuilder: (context, imageProvider) =>
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(30)),
-                      child: Image(image: imageProvider,fit: BoxFit.cover,),
-                    ),
-                placeholder: (context, url) =>
-                    Image.asset('assets/1.png', fit: BoxFit.cover),
-                errorWidget: (context, url, error) =>
-                    Image.asset('assets/1.png', fit: BoxFit.cover),
-              ),
-            ),
-            Positioned(
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.only(left: 12, top: 12, right: 15),
-                  height: 80,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(0, 0, 0, 0),
-                      Color.fromARGB(80, 0, 0, 0),
-                      Color.fromARGB(180, 0, 0, 0),
-                    ],
-                  )),
-                  // color: const Color.fromARGB(90, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Жемчужина Сибири или Галапагосские острова Россиии",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 16,
-                            height: 1.5,
-                            letterSpacing: 0.15),
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) =>
+            StoryWidget()));
+      },
+      child: SizedBox(
+          height: 173,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      "https://cdnn21.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg",
+                  imageBuilder: (context, imageProvider) =>
+                      Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.fitWidth,
+                              alignment:  FractionalOffset.center,
+                              image: imageProvider,
+                            ),
+                              borderRadius: BorderRadius.circular(30)),
+                        // child: Image(image: imageProvider,fit: BoxFit.cover),
                       ),
-                    ],
-                  ),
-                )),
-          ],
-        ));
+                  placeholder: (context, url) =>
+                      Image.asset('assets/1.png', fit: BoxFit.cover),
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/1.png', fit: BoxFit.cover),
+                ),
+              ),
+              Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 12, top: 12, right: 15),
+                    height: 80,
+                    width: MediaQuery.of(context).size.width-48,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(0, 0, 0, 0),
+                        Color.fromARGB(80, 0, 0, 0),
+                        Color.fromARGB(180, 0, 0, 0),
+                      ],
+                    )),
+                    // color: const Color.fromARGB(90, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          child: const Text(
+                            "Жемчужина Сибири или Галапагосские острова Россиии",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16,
+                                height: 1.5,
+                                letterSpacing: 0.15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ],
+          )),
+    );
   }
 
   Widget buildIndicator() {
