@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Theme/app_color.dart';
+import '../events_screen/events_widget.dart';
 import '../home_screen/home_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -14,7 +15,8 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
-
+    HomeWidget(),
+    EventsScreenWidget(),
   ];
 
   void _onItemTapped(int index) {
