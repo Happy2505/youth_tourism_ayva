@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../Theme/app_color.dart';
+import '../domain/factoryes/scren_factory.dart';
 import '../events_screen/events_widget.dart';
 import '../home_screen/home_widget.dart';
+import '../residence_screen/residence_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   MainScreenWidget({Key? key}) : super(key: key);
@@ -13,9 +15,12 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedIndex = 0;
+  final _screenFactory = ScreenFactory();
+
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
-    HomeWidget(),
+    ResidentsWidget(),
+    // _screenFactory.makeEvents(),
     EventsScreenWidget(),
   ];
 

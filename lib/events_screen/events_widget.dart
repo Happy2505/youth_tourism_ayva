@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Theme/app_color.dart';
 import 'desc_event_screen/desc_event_widget.dart';
+import 'events_model.dart';
 import 'organization_event_screen/organization_event_widget.dart';
 
 class EventsScreenWidget extends StatefulWidget {
@@ -24,6 +26,8 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<EventsModel>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -136,8 +140,9 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(top: 20),
-                  itemCount: 15,
+                  itemCount: model.events[0].list.length,
                   itemBuilder: (BuildContext context, int index) {
+                    final events = model.events[0].list[index];
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(CupertinoPageRoute(
@@ -148,34 +153,32 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                         children: [
                           Container(
                             decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: NetworkImage(events.images[0].url),
+                                ),
                                 borderRadius: BorderRadius.circular(12),
-
-                              color: Colors.red
                             ),
-                            // child: Image.asset(
-                            //   'assets/9.png',
-                            //   width: 76,
-                            //   height: 104,
-                            //   fit: BoxFit.fill,
-                            // ),
+                            height: 104,
+                            width: 76,
                           ),
                           const SizedBox(width: 15),
                           Expanded(
                             flex: 1,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('29.05.2022 - 29.05.2024',
+                              children: [
+                                Text('${events.startDate} - ${events.finishDate}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     )),
                                 SizedBox(height: 5),
-                                Text('Посещение центра боевой славы',
+                                Text(events.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     )),
                                 SizedBox(height: 7),
-                                Text('Ульяновская область',
+                                Text(events.university.district,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
@@ -203,10 +206,10 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),
                                   ),
-                                  child: const Padding(
+                                  child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      '4000 ₽',
+                                      "${events.cost.toString()}₽",
                                       style: TextStyle(
                                           color: Color.fromARGB(255, 55, 74, 0),
                                           fontWeight: FontWeight.w500
@@ -240,7 +243,17 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset('assets/1.png'),
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/org.png'),
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            height: 89,
+                            width: 119,
+                          ),
                           const SizedBox(width: 15),
                           Expanded(
                             flex: 1,
@@ -250,7 +263,7 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  const Text('Кинологический центр РГАЗУ',
+                                  const Text('Научно-информационный центр',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                       )),
@@ -261,7 +274,7 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
                                           color: Color.fromARGB(
                                               255, 130, 130, 130)),
                                       Text(
-                                        'Балашиха',
+                                        'Владивосток',
                                         style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 130, 130, 130)),

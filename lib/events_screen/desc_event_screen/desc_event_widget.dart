@@ -64,19 +64,16 @@ class DescEventScreenWidget extends StatelessWidget {
                   height: heightEvents,
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(20, 0, 0, 0),
-                          blurRadius: 40,
-                        ),
-                      ],
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/12.png'),
+                      ),
                       color: Colors.black12,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50))),
                   child: Stack(
                     children: [
-                      Image.asset('assets/12.png',fit: BoxFit.fitHeight,height: heightEvents,),
                       Positioned(
                         top: 15,
                         left: 15,

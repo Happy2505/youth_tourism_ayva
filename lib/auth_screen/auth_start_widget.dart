@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../Theme/app_color.dart';
+import '../domain/factoryes/scren_factory.dart';
 import 'login_screen/login_widget.dart';
 import 'registration_screen/registration_widget.dart';
 
@@ -11,6 +12,7 @@ class AuthStartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _screenFactory = ScreenFactory();
     return SafeArea(
         child: Scaffold(
       body: Stack(
@@ -44,7 +46,7 @@ class AuthStartWidget extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => const LoginWidget()));
+                          builder: (context) => _screenFactory.makeAuth()));
                     },
                     style: ButtonStyle(
                         shape:
@@ -69,7 +71,7 @@ class AuthStartWidget extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => RegistrationWidget()));
+                          builder: (context) => _screenFactory.makeReg()));
                     },
                     style: ButtonStyle(
                         shape:

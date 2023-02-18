@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:youth_tourism_ayva/auth_screen/registration_screen/registration_model.dart';
 
 import '../../Theme/app_color.dart';
 import '../personal_information/personal_lnformation_widget.dart';
+
 const List<String> list = <String>['Студент', 'Молодой специалист'];
 
 class RegistrationWidget extends StatefulWidget {
@@ -13,10 +16,11 @@ class RegistrationWidget extends StatefulWidget {
 }
 
 class _RegistrationWidgetState extends State<RegistrationWidget> {
-  String dropdownValue = list.first;
+  String dropdownValue = '';
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<RegistrationModel>();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -50,6 +54,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: model.fullNameTextController,
               style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -89,7 +94,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding:
-                const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 helperStyle: const TextStyle(
                   letterSpacing: 0.4,
                   height: 0.7,
@@ -101,15 +106,18 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 ),
                 border: OutlineInputBorder(
                     borderSide:
-                    const BorderSide(color: AppColors.colorTextInTextField),
+                        const BorderSide(color: AppColors.colorTextInTextField),
                     borderRadius: BorderRadius.circular(20)),
                 focusedBorder: OutlineInputBorder(
                     borderSide:
-                    const BorderSide(color: AppColors.colorTextInTextField),
+                        const BorderSide(color: AppColors.colorTextInTextField),
                     borderRadius: BorderRadius.circular(20)),
               ),
               value: null,
-              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: AppColors.colorTextInTextField),
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: AppColors.colorTextInTextField),
               icon: Icon(Icons.keyboard_arrow_down),
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -120,7 +128,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               onChanged: (String? value) {
                 // This is called when the user selects an item.
                 setState(() {
-                  dropdownValue = value!;
+                  model.roleTextController.text = value!;
                 });
               },
             ),
@@ -131,6 +139,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: model.numberTextController,
               style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -163,6 +172,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: model.emailTextController,
               style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
@@ -195,6 +205,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: model.passwordTextController,
               style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               obscureText: true,
               keyboardType: TextInputType.text,
@@ -222,27 +233,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               ),
             ),
             const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-
-              },
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                  elevation: MaterialStateProperty.all(0),
-                  backgroundColor: MaterialStateProperty.all(
-                      AppColors.MainButtonColor),
-                  minimumSize: MaterialStateProperty.all(const Size(312, 40))),
-              child: const Text(
-                'Зарегистрироваться',
-                style: TextStyle(
-                    letterSpacing: 0.1,
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
+            _RegButtonWidget(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Align(
@@ -264,9 +255,61 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 ),
               ),
             ),
+            _ErrorMessageWidget()
           ],
         ),
       ),
     ));
+  }
+}
+class _RegButtonWidget extends StatelessWidget {
+  const _RegButtonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<RegistrationModel>();
+    final child = model.isAuthProgress
+        ? const CircularProgressIndicator(strokeWidth: 2)
+        : const Text('Зарегистрироваться',
+        style: TextStyle(
+            letterSpacing: 0.1,
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w500));
+    final onPressed = model.canStartAuth ? () => model.reg(context) : null;
+    return ElevatedButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30))),
+          elevation: MaterialStateProperty.all(0),
+          backgroundColor:
+          MaterialStateProperty.all(AppColors.MainButtonColor),
+          minimumSize: MaterialStateProperty.all(const Size(312, 40))),
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+}
+
+class _ErrorMessageWidget extends StatelessWidget {
+  const _ErrorMessageWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final errorMessage = context.select((RegistrationModel m) => m.errorMessage);
+    if (errorMessage == null) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 0,top: 10),
+      child: Text(
+        errorMessage,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: Color.fromARGB(255, 219, 0, 0),
+        ),
+      ),
+    );
   }
 }

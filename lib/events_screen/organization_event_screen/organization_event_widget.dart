@@ -62,12 +62,10 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
                       height: heightEvents,
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromARGB(20, 0, 0, 0),
-                              blurRadius: 40,
-                            ),
-                          ],
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/12.png'),
+                          ),
                           color: Colors.black12,
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(50),

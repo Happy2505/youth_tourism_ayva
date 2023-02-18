@@ -192,7 +192,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                               alignment:  FractionalOffset.center,
                               image: imageProvider,
                             ),
-                              borderRadius: BorderRadius.circular(30)),
+                              borderRadius: BorderRadius.circular(12)),
                         // child: Image(image: imageProvider,fit: BoxFit.cover),
                       ),
                   placeholder: (context, url) =>
@@ -209,7 +209,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     height: 80,
                     width: MediaQuery.of(context).size.width-48,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(12),
                       gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
