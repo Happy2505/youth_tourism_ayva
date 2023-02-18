@@ -11,10 +11,10 @@ import '../../Theme/app_color.dart';
 // ничего не сможем ей присвоить,
 // иначе говоря, она определена во время компиляции
 const Map<TabItem, MyTab> tabs = {
-  TabItem.Home : MyTab(name: "Главная", icon: Icons.menu_outlined),
-  TabItem.Residence : MyTab(name: "На карте", icon: Icons.location_on_rounded),
-  TabItem.Events : MyTab(name: "Сканер QR", icon: Icons.qr_code_scanner_rounded),
-  TabItem.Profile : MyTab(name: "Профиль", icon: Icons.account_circle_rounded)
+  TabItem.Home : MyTab(name: "Главная", icon: Icons.home_outlined),
+  TabItem.Residence : MyTab(name: "Проживание", icon: Icons.location_on_outlined),
+  TabItem.Events : MyTab(name: "События", icon: Icons.note),
+  TabItem.Profile : MyTab(name: "Профиль", icon: Icons.person)
 };
 
 class MyBottomNavigation extends StatelessWidget {
@@ -33,9 +33,12 @@ class MyBottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BottomNavigationBar(
+        selectedItemColor: Color.fromARGB(255, 55, 74, 0),
         backgroundColor: Colors.white,
-        selectedFontSize: 13,
-        iconSize: 20,
+        unselectedItemColor: const Color.fromARGB(255, 153, 153, 153),
+        elevation: 10,
+        // selectedFontSize: 13,
+        // iconSize: 20,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentTab.index,
         // пункты меню

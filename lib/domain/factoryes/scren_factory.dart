@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youth_tourism_ayva/auth_screen/login_screen/login_model.dart';
+import 'package:youth_tourism_ayva/home_screen/home_model.dart';
 
 import '../../auth_screen/login_screen/login_widget.dart';
 import '../../auth_screen/registration_screen/registration_model.dart';
 import '../../auth_screen/registration_screen/registration_widget.dart';
+import '../../events_screen/desc_event_screen/desc_event_model.dart';
+import '../../events_screen/desc_event_screen/desc_event_widget.dart';
 import '../../events_screen/events_model.dart';
 import '../../events_screen/events_widget.dart';
+import '../../events_screen/organization_event_screen/organization_event_model.dart';
+import '../../events_screen/organization_event_screen/organization_event_widget.dart';
+import '../../home_screen/home_widget.dart';
+import '../../profile_screen/profile_model.dart';
+import '../../profile_screen/profile_widget.dart';
+import '../../residence_screen/residence_model.dart';
+import '../../residence_screen/residence_widget.dart';
 
 
 class ScreenFactory {
@@ -27,6 +37,41 @@ class ScreenFactory {
     return ChangeNotifierProvider(
       create: (_) => EventsModel(),
       child: EventsScreenWidget(),
+    );
+  }
+
+  Widget makeEventID(int ID) {
+    return ChangeNotifierProvider(
+      create: (_) => EventIDModel(ID),
+      child: DescEventScreenWidget(),
+    );
+  }
+
+  Widget makeScienceID(int ID) {
+    return ChangeNotifierProvider(
+      create: (_) => ScienceIDModel(ID),
+      child: OrganizationEventWidget(),
+    );
+  }
+
+  Widget makeHome() {
+    return ChangeNotifierProvider(
+      create: (_) => HomeModel(),
+      child: HomeWidget(),
+    );
+  }
+
+  Widget makeResidence() {
+    return ChangeNotifierProvider(
+      create: (_) => ResidenceModel(),
+      child: ResidentsWidget(),
+    );
+  }
+
+  Widget makeProfile() {
+    return ChangeNotifierProvider(
+      create: (_) => ProfileModel(),
+      child: ProfileWidget(),
     );
   }
   // Widget makeLoader() {

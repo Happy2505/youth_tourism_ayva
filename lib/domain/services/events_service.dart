@@ -7,6 +7,6 @@ class EventsService {
 
 
   Future<AllEvents> getEvents() async => _eventsClient.getEvents();
-  Future<EventID> getEventID() async => _eventsClient.getEventID();
+  Future<EventID> getEventID(int ID) async => _eventsClient.getEventID(ID: ID);
 
 }

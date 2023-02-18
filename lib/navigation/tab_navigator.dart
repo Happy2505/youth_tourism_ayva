@@ -18,13 +18,13 @@ class TabNavigator extends StatelessWidget {
       onGenerateRoute: (routeSettings) {
         late Widget currentPage;
         if (tabItem == TabItem.Home) {
-          currentPage = _screenFactory.makeEvents();
+          currentPage = _screenFactory.makeHome();
         } else if (tabItem == TabItem.Residence) {
-          currentPage = _screenFactory.makeReg();
+          currentPage = _screenFactory.makeResidence();
         } else if (tabItem == TabItem.Events) {
-          currentPage = _screenFactory.makeReg();
+          currentPage = _screenFactory.makeEvents();
         } else if (tabItem == TabItem.Profile) {
-          currentPage = _screenFactory.makeReg();
+          currentPage = _screenFactory.makeProfile();
         }
         return MaterialPageRoute(builder: (context) => currentPage);
       },

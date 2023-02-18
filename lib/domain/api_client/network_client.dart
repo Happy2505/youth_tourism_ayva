@@ -53,6 +53,32 @@ class NetworkClient {
     }
   }
 
+  Future<T> getMap<T>(
+      String path,
+      String? token,
+      T Function(dynamic json) parser, [
+        Map<String, dynamic>? parameters,
+      ]) async {
+    final url = _makeUri(path, parameters);
+    try {
+
+      final request = await http.get(
+        url,
+      );
+      final response = convert.jsonDecode(request.body) as Map<String,dynamic>;
+
+      final result = parser(response);
+
+      return result;
+    } on SocketException {
+      throw ApiClientException(ApiClientExceptionType.network);
+    } on ApiClientException {
+      rethrow;
+    } catch (_) {
+      throw ApiClientException(ApiClientExceptionType.other);
+    }
+  }
+
   Future<T> post<T>(
     String path,
     Map<String, dynamic> bodyParameters,

@@ -49,16 +49,6 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
             // backgroundColor: const Color.fromARGB(255, 237, 237, 237),
             unselectedItemColor: const Color.fromARGB(255, 153, 153, 153),
             elevation: 10,
-            // selectedIconTheme: const IconThemeData(
-            //   shadows: [
-            //     BoxShadow(
-            //       color: Colors.black,
-            //       blurRadius: 50,
-            //     ),
-            //   ],
-            // ),
-            // showSelectedLabels: false,
-            // showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,

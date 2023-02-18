@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youth_tourism_ayva/events_screen/organization_event_screen/organization_event_model.dart';
 
 class OrganizationEventWidget extends StatefulWidget {
   const OrganizationEventWidget({Key? key}) : super(key: key);
@@ -48,6 +50,9 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
   Widget build(BuildContext context) {
     var heightEvents = MediaQuery.of(context).size.height - 530;
     if (heightEvents < 200) heightEvents = 200;
+    final model = context.watch<ScienceIDModel>();
+    if(model.sienceID.isEmpty) return SizedBox();
+    final sienceID = model.sienceID[0];
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -61,10 +66,10 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
                     Container(
                       height: heightEvents,
                       width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage('assets/12.png'),
+                            image: NetworkImage(sienceID.images[0].url),
                           ),
                           color: Colors.black12,
                           borderRadius: BorderRadius.only(
@@ -121,14 +126,14 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Кинологический центр РГАЗУ',
+                          Text(
+                            sienceID.name,
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w500),
                           ),
                           const SizedBox(height: 15),
                           Row(
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.location_on_outlined,
                                 color: Colors.black,
@@ -136,7 +141,7 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                'г. Балашиха',
+                                sienceID.university.city,
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 95, 114, 42)),
                               )
@@ -175,132 +180,136 @@ class _OrganizationEventWidgetState extends State<OrganizationEventWidget>
                           controller: _tabController,
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.symmetric(horizontal: 23.0),
                               child: Text(
-                                'На встрече мы побеседуем об основных правилах собаковладения в городе. Расскажем про курсы дрессировки. Вы узнаете: - что входит в базовую подготовку собаки, - чем отличается общий курс дрессировки от курса управляемая городская собака, -сможете выбрать курс, который наиболее полно будет отвечать вашим потребностям. Узнаете, что игра с собакой это не только игра в мячик или палочку. Мы расскажем, в какие игры и как можно играть с собакой, чтобы это было не только интересно собаке и хозяину, но и полезно для жизни. Мы расскажем про поисковые игры. Что это такое, как в них играть и что это даёт собаке.',
+                                sienceID.description,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300,
                                     height: 1.4,
                                     letterSpacing: 0.25),
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(left: 24, top: 4),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 24,
-                                  color: Color.fromARGB(255, 225, 236, 192),
-                                  child: const Text('Наименование',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.4)),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 24.0, vertical: 12),
-                                  child: Text('Цой Марина Евгеньевна',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(left: 24, top: 4),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 24,
-                                  color: Color.fromARGB(255, 225, 236, 192),
-                                  child: const Text('Телефон',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.4)),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0),
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all(
-                                                  const Color.fromARGB(
-                                                      255, 32, 32, 32)),
-                                          padding: MaterialStateProperty.all(
-                                              const EdgeInsets.all(0))),
-                                      onPressed: () =>
-                                          _makePhoneCall("346-33-67"),
-                                      child: const Text('346-33-67',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          )),
+                            Visibility(
+                              visible: sienceID.contactModel != null,
+                              replacement: SizedBox(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.only(left: 24, top: 4),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 24,
+                                    color: Color.fromARGB(255, 225, 236, 192),
+                                    child: const Text('Наименование',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.4)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 24.0, vertical: 12),
+                                    child: Text(sienceID.contactModel?.name ?? '',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500)),
+                                  ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.only(left: 24, top: 4),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 24,
+                                    color: Color.fromARGB(255, 225, 236, 192),
+                                    child: const Text('Телефон',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.4)),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24.0),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 32, 32, 32)),
+                                            padding: MaterialStateProperty.all(
+                                                const EdgeInsets.all(0))),
+                                        onPressed: () =>
+                                            _makePhoneCall("${sienceID.contactModel?.phoneNumber}"),
+                                        child: Text(sienceID.contactModel?.phoneNumber ?? '',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(left: 24, top: 4),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 24,
-                                  color: Color.fromARGB(255, 225, 236, 192),
-                                  child: const Text('Электронная почта',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.4)),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 24.0, vertical: 12),
-                                  child: Text('service@fb.nstu.ru',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.underline,
-                                      )),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(left: 24, top: 4),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 24,
-                                  color: Color.fromARGB(255, 225, 236, 192),
-                                  child: const Text(
-                                      'Сайт образовательной организации',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.4)),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0),
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all(
-                                                  const Color.fromARGB(
-                                                      255, 32, 32, 32)),
-                                          padding: MaterialStateProperty.all(
-                                              const EdgeInsets.all(0))),
-                                      onPressed: () => _launchInBrowser(),
-                                      child: const Text('https://www.nstu.ru/',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          )),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.only(left: 24, top: 4),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 24,
+                                    color: Color.fromARGB(255, 225, 236, 192),
+                                    child: const Text('Электронная почта',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.4)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 24.0, vertical: 12),
+                                    child: Text(sienceID.contactModel?.email ?? '',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          decoration: TextDecoration.underline,
+                                        )),
+                                  ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.only(left: 24, top: 4),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 24,
+                                    color: Color.fromARGB(255, 225, 236, 192),
+                                    child: const Text(
+                                        'Сайт образовательной организации',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.4)),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24.0),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 32, 32, 32)),
+                                            padding: MaterialStateProperty.all(
+                                                const EdgeInsets.all(0))),
+                                        onPressed: () => _launchInBrowser(),
+                                        child: Text(sienceID.university.url,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )
                           ]),
                     ),

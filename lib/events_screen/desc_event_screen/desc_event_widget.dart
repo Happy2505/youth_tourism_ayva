@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youth_tourism_ayva/Theme/app_color.dart';
+import 'package:youth_tourism_ayva/events_screen/desc_event_screen/desc_event_model.dart';
 
 import '../application_event_screen/application_event_widget.dart';
 
 class DescEventScreenWidget extends StatelessWidget {
   DescEventScreenWidget({Key? key}) : super(key: key);
-  final Uri _url = Uri.parse('https://www.nstu.ru/');
 
-  Future<void> _launchInBrowser() async {
+  Future<void> _launchInBrowser(url) async {
+    final Uri _url = Uri.parse(url);
     if (!await launchUrl(
       _url,
       mode: LaunchMode.externalApplication,
@@ -23,6 +25,9 @@ class DescEventScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var heightEvents = MediaQuery.of(context).size.height - 530;
     if (heightEvents < 200) heightEvents = 200;
+    final model = context.watch<EventIDModel>();
+    if(model.eventID.isEmpty) return SizedBox();
+    final eventID = model.eventID[0];
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
@@ -63,10 +68,10 @@ class DescEventScreenWidget extends StatelessWidget {
                 Container(
                   height: heightEvents,
                   width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/12.png'),
+                        image: NetworkImage(eventID.images[0].url),
                       ),
                       color: Colors.black12,
                       borderRadius: BorderRadius.only(
@@ -117,8 +122,8 @@ class DescEventScreenWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Презентация научных достижений Самарского университета',
+                      Text(
+                        eventID.name,
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500),
                       ),
@@ -146,14 +151,14 @@ class DescEventScreenWidget extends StatelessWidget {
                       const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text(
-                            '29.05.2022 - 29.05.2024',
+                            '${eventID.startDate} - ${eventID.finishDate}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w300),
                           ),
                           Text(
-                            '1500 ₽',
+                            '${eventID.cost} ₽',
                             style: TextStyle(
                                 fontSize: 22,
                                 color: Color.fromARGB(255, 95, 114, 42),
@@ -162,8 +167,8 @@ class DescEventScreenWidget extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 5),
-                      const Text(
-                        'ФГАОУ ВО Самарский национальный исследовательский университет имени академика С.П. Королева',
+                      Text(
+                        eventID.university.name,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -179,8 +184,8 @@ class DescEventScreenWidget extends StatelessWidget {
                                   const Color.fromARGB(255, 117, 117, 117)),
                               padding: MaterialStateProperty.all(
                                   const EdgeInsets.all(0))),
-                          onPressed: () => _launchInBrowser(),
-                          child: const Text('https://www.nstu.ru/',
+                          onPressed: () => _launchInBrowser(eventID.university.url),
+                          child: Text(eventID.university.url,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,
@@ -207,23 +212,7 @@ class DescEventScreenWidget extends StatelessWidget {
                                   color: Color.fromARGB(255, 225, 236, 192),
                                   borderRadius: BorderRadius.circular(15)),
                               child: Text(
-                                "История",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 95, 114, 42),
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.5),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              margin: EdgeInsets.only(right: 8),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 225, 236, 192),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Text(
-                                "Культурно-познавательные",
+                                eventID.speciality,
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Color.fromARGB(255, 95, 114, 42),
@@ -235,13 +224,12 @@ class DescEventScreenWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'В выставочном зале представлены научно-технические разработки Самарского университета, где можно ознакомиться с достижениями ракетно-космической, металлургической, химической, энергетической, авиационной, и других областей.',
+                      Text(
+                        eventID.description,
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w300,height: 1.5, letterSpacing: 0.25),
                       ),
                       const SizedBox(height: 20),
-
                     ],
                   ),
                 )
