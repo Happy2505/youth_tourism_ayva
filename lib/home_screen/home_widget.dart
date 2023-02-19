@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:youth_tourism_ayva/domain/factoryes/scren_factory.dart';
 import 'package:youth_tourism_ayva/home_screen/story_screen/story_widget.dart';
 import '../../Theme/app_color.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'desc_news_screen/desc_news_widget.dart';
+import 'home_model.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -17,9 +20,11 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   int activeIndex = 0;
+  final _screenFactory = ScreenFactory();
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<HomeModel>();
     return SafeArea(
         child: Scaffold(
       backgroundColor: AppColors.GreenColor,
@@ -59,42 +64,82 @@ class _HomeWidgetState extends State<HomeWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 35),
-                          Container(
-                            height: 174,
-                            width: MediaQuery.of(context).size.width,
-                            child: Stack(
-                              children: [
-                                Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                                    height: 136,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 214, 239, 240),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Не знаешь куда поехать?',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromARGB(255, 0, 55, 63),
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Text('Мы выберем за тебя'),
-                                      ],
+                          const SizedBox(height: 10),
+                          Visibility(
+                            visible: false,
+                            replacement: RandomRes(),
+                            child: Container(
+                              height: 174,
+                              width: MediaQuery.of(context).size.width,
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          right: 8, left: 8, top: 16),
+                                      height: 136,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 214, 239, 240),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Не знаешь куда поехать?',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Color.fromARGB(
+                                                    255, 0, 55, 63),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Text('Мы выберем за тебя',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  height: 2,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 55, 63),
+                                                  fontWeight: FontWeight.w500)),
+                                          SizedBox(height: 20),
+                                          ElevatedButton(
+                                            onPressed: () {},
+                                            style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                elevation:
+                                                    MaterialStateProperty.all(
+                                                        0),
+                                                backgroundColor: MaterialStateProperty.all(
+                                                    AppColors.MainButtonColor),
+                                                minimumSize:
+                                                    MaterialStateProperty.all(
+                                                        const Size(170, 28))),
+                                            child: const Text(
+                                              'В путь!',
+                                              style: TextStyle(
+                                                  letterSpacing: 0.1,
+                                                  fontSize: 14,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                    right: 23,
-                                    child: Image.asset('assets/ruka.png')),
-                              ],
+                                  Positioned(
+                                      right: 23,
+                                      child: Image.asset('assets/ruka.png')),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(height: 24),
@@ -113,9 +158,62 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   itemBuilder: (context, index, realIndex) {
                                     return buildCardPromo(index);
                                   }),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               buildIndicator()
                             ],
+                          ),
+                          SizedBox(height: 20),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  right: 8, left: 9, top: 16, bottom: 10),
+                              height: 100,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage('assets/home_near.png'),
+                                  ),
+                                  color: Color.fromARGB(255, 214, 239, 240),
+                                  borderRadius: BorderRadius.circular(12),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Color.fromARGB(255, 66, 75, 13),
+                                      Color.fromARGB(255, 155, 169, 75),
+                                    ],
+                                  )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Путешествия рядом",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        height: 1.5,
+                                        letterSpacing: 0.15),
+                                  ),
+                                  const Text(
+                                    "Поездки в радиусе 700 км",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        height: 1.5,
+                                        letterSpacing: 0.15),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 15),
                           const Text('Новости',
@@ -125,26 +223,27 @@ class _HomeWidgetState extends State<HomeWidget> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: const EdgeInsets.only(top: 10),
-                            itemCount: 5,
+                            itemCount: model.news[0].list.length,
                             itemBuilder: (BuildContext context, int index) {
+                              final news = model.news[0].list[index];
                               return InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (context) =>
-                                          const DescNewsWidget()));
+                                      builder: (context) => _screenFactory.makeNewsID(news.id)));
                                 },
                                 child: Row(
                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
+                                      height: 80,
+                                      width: 80,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Image.asset(
-                                        'assets/1.png',
-                                        width: 80,
-                                        height: 80,
-                                        fit: BoxFit.fill,
+                                        borderRadius: BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image:
+                                              NetworkImage(news.images[0].url),
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 10),
@@ -154,11 +253,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Padding(
+                                          Padding(
                                             padding: EdgeInsets.only(
                                                 left: 5.0, top: 10),
-                                            child: Text(
-                                                'Стартовал Международный трек Программы Студтуризм',
+                                            child: Text(news.name,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     letterSpacing: 0.25)),
@@ -218,25 +318,14 @@ class _HomeWidgetState extends State<HomeWidget> {
           height: 173,
           child: Stack(
             children: [
-              SizedBox(
+              Container(
                 width: double.infinity,
-                child: CachedNetworkImage(
-                  imageUrl:
-                      "https://cdnn21.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg",
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          alignment: FractionalOffset.center,
-                          image: imageProvider,
-                        ),
-                        borderRadius: BorderRadius.circular(12)),
-                    // child: Image(image: imageProvider,fit: BoxFit.cover),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage('assets/baikal.png'),
                   ),
-                  placeholder: (context, url) =>
-                      Image.asset('assets/1.png', fit: BoxFit.cover),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/1.png', fit: BoxFit.cover),
                 ),
               ),
               Positioned(
@@ -244,7 +333,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   bottom: 0,
                   child: Container(
                     padding:
-                        const EdgeInsets.only(left: 12, top: 12, right: 15),
+                        const EdgeInsets.only(left: 18, top: 12, right: 15),
                     height: 80,
                     width: MediaQuery.of(context).size.width - 48,
                     decoration: BoxDecoration(
@@ -254,26 +343,36 @@ class _HomeWidgetState extends State<HomeWidget> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Color.fromARGB(0, 0, 0, 0),
-                            Color.fromARGB(80, 0, 0, 0),
+                            Color.fromARGB(100, 0, 0, 0),
                             Color.fromARGB(180, 0, 0, 0),
                           ],
                         )),
                     // color: const Color.fromARGB(90, 0, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          child: const Text(
-                            "Жемчужина Сибири или Галапагосские острова Россиии",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 16,
-                                height: 1.5,
-                                letterSpacing: 0.15),
-                          ),
+                        const Text(
+                          "Путешествие на Байкал",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 16,
+                              height: 1.5,
+                              letterSpacing: 0.15),
+                        ),
+                        const Text(
+                          "Самое глубокое и древнее озеро в мире",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                              fontSize: 12,
+                              height: 1.5,
+                              letterSpacing: 0.15),
                         ),
                       ],
                     ),
@@ -292,6 +391,244 @@ class _HomeWidgetState extends State<HomeWidget> {
         activeDotColor: Color.fromARGB(255, 153, 162, 173),
         dotWidth: 7,
         dotHeight: 7,
+      ),
+    );
+  }
+}
+
+class RandomRes extends StatefulWidget {
+  const RandomRes({Key? key}) : super(key: key);
+
+  @override
+  State<RandomRes> createState() => _RandomResState();
+}
+
+class _RandomResState extends State<RandomRes> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      height: 500,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(63, 0, 0, 0),
+              spreadRadius: 2,
+              blurRadius: 3, // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        children: [
+          Text(
+            'Томск',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 0, 55, 63)),
+          ),
+          SizedBox(height: 7),
+          Container(
+            height: 173,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('assets/home_tomsk.png'),
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Студенческий жилой комплекс «Маяк»',
+              style: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 0.15,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 0, 55, 63)),
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 214, 239, 240),
+                borderRadius: BorderRadius.circular(20)),
+            child: TabBar(
+                controller: _tabController,
+                labelColor: Colors.white,
+                unselectedLabelColor: const Color.fromARGB(255, 59, 97, 99),
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(255, 59, 97, 99),
+                ),
+                tabs: [
+                  const Text('Инфо'),
+                  const Text('Номера'),
+                ]),
+          ),
+          SizedBox(height: 8),
+          SizedBox(
+            height: 150,
+            child: TabBarView(
+                physics: const BouncingScrollPhysics(),
+                controller: _tabController,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 214, 239, 240),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, top: 8),
+                              child: Text(
+                                'от 2 до 5 дней',
+                                style:
+                                    TextStyle(fontSize: 12, letterSpacing: 0.4),
+                              ),
+                            ),
+                            const Divider(thickness: 1),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, right: 10),
+                              child: Text(
+                                'Без питания',
+                                style:
+                                    TextStyle(fontSize: 12, letterSpacing: 0.4),
+                              ),
+                            ),
+                            const Divider(thickness: 1),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, bottom: 10),
+                              child: Text(
+                                'ФГАОУ ВО «Национальный исследовательский Томский государственный университет»',
+                                style:
+                                    TextStyle(fontSize: 12, letterSpacing: 0.4),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 214, 239, 240),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, top: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Тип номера',
+                                    style: TextStyle(
+                                        fontSize: 12, letterSpacing: 0.4),
+                                  ),
+                                  Text('3-х местный',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          letterSpacing: 0.1,
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),
+                            ),
+                            const Divider(thickness: 1),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, right: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Кол-во номеров',
+                                    style: TextStyle(
+                                        fontSize: 12, letterSpacing: 0.4),
+                                  ),
+                                  Text('7',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          letterSpacing: 0.1,
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),
+                            ),
+                            const Divider(thickness: 1),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Тариф (1 человек)',
+                                    style: TextStyle(
+                                        fontSize: 12, letterSpacing: 0.4),
+                                  ),
+                                  Text('200₽',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          letterSpacing: 0.1,
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                ]),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                elevation: MaterialStateProperty.all(0),
+                backgroundColor:
+                    MaterialStateProperty.all(AppColors.MainButtonColor),
+                minimumSize: MaterialStateProperty.all(const Size(312, 40))),
+            child: const Text(
+              'Оставить заявку',
+              style: TextStyle(
+                  letterSpacing: 0.1,
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
       ),
     );
   }

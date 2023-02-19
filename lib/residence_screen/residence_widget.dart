@@ -140,7 +140,6 @@ class ResidentsWidget extends StatelessWidget {
                                                 letterSpacing: 0.5),
                                           ),
                                         )),
-
                                     Positioned(
                                       top: 8,
                                       right: 8,

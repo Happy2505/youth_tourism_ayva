@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:youth_tourism_ayva/home_screen/desc_news_screen/desc_news_model.dart';
 
 import '../../Theme/app_color.dart';
 
@@ -10,6 +12,9 @@ class DescNewsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var heightEvents = MediaQuery.of(context).size.height - 530;
     if (heightEvents < 200) heightEvents = 200;
+    final model = context.watch<NewsIDModel>();
+    if (model.newsID.isEmpty) return SizedBox();
+    final newsID = model.newsID[0];
     return SafeArea(
         child: Scaffold(
       body: ListView(
@@ -18,8 +23,12 @@ class DescNewsWidget extends StatelessWidget {
           Container(
             height: heightEvents,
             width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-                color: Colors.black12,
+            decoration: BoxDecoration(
+                image:
+                    DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(newsID.images[0].url)
+                    ),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(60),
                     bottomRight: Radius.circular(60))),
@@ -69,24 +78,26 @@ class DescNewsWidget extends StatelessWidget {
           SizedBox(height: 20),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Column(children: [
-                Text(
-                  'Студенты технических специальностей из 4 регионов России пройдут программу практической подготовки на одном из ведущих предприятий российской космической отрасли',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(newsID.name,
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       letterSpacing: 0.15),
                 ),
-                SizedBox(height: 14),
               ])),
+          SizedBox(height: 15),
           SizedBox(
             height: 28,
             child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 24),
-                itemCount: 13,
+                itemCount: newsID.hashtags.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final hash = newsID.hashtags[index];
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     margin: EdgeInsets.only(right: 8),
@@ -94,7 +105,7 @@ class DescNewsWidget extends StatelessWidget {
                         color: Color.fromARGB(90, 154, 192, 46),
                         borderRadius: BorderRadius.circular(15)),
                     child: Text(
-                      "#Студтуризм",
+                      hash.text,
                       style: TextStyle(
                           fontSize: 12,
                           color: Color.fromARGB(255, 55, 74, 0),
@@ -108,8 +119,7 @@ class DescNewsWidget extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: Column(children: [
-                Text(
-                  'Минобрнауки России в рамках профориентационного трека Программы молодежного и студенческого туризма (далее – Программа) и Национальное агенство развития квалификаций при содействии проекта Федерального агентства по делам молодежи «Больше, чем работа» организовали краткосрочную стажировку студентов на предприятии ракетно-космической отрасли АО «Информационные спутниковые системы» имени академика М.Ф. Решетнёва» (Красноярский край, г. Железногорск).',
+                Text(newsID.description,
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -148,7 +158,8 @@ class DescNewsWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 80.0, vertical: 16),
                         child: Container(
                           height: 4,
                           width: 32,
@@ -167,18 +178,17 @@ class DescNewsWidget extends StatelessWidget {
                                     color: Colors.black))),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 80, vertical: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
                               height: 48,
                               width: 48,
-                              decoration:
-                              BoxDecoration(
+                              decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(180),
-                                  color: Color.fromARGB(255, 0, 119, 255)
-                              ),
+                                  color: Color.fromARGB(255, 0, 119, 255)),
                               child: Image.asset('assets/vk.png'),
                             ),
                           ],
@@ -191,17 +201,17 @@ class DescNewsWidget extends StatelessWidget {
           );
         });
   }
+
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-      const qwe(),
+      pageBuilder: (context, animation, secondaryAnimation) => const qwe(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1);
         const end = Offset(0.0, 0.0);
         const curve = Curves.ease;
 
         var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -211,7 +221,6 @@ class DescNewsWidget extends StatelessWidget {
     );
   }
 }
-
 
 class qwe extends StatelessWidget {
   const qwe({Key? key}) : super(key: key);
@@ -240,7 +249,8 @@ class qwe extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 80.0, vertical: 16),
                   child: Container(
                     height: 4,
                     width: 32,
@@ -259,7 +269,8 @@ class qwe extends StatelessWidget {
                               color: Colors.black))),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -282,4 +293,3 @@ class qwe extends StatelessWidget {
     );
   }
 }
-

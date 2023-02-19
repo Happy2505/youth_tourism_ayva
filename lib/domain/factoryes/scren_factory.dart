@@ -12,6 +12,8 @@ import '../../events_screen/events_model.dart';
 import '../../events_screen/events_widget.dart';
 import '../../events_screen/organization_event_screen/organization_event_model.dart';
 import '../../events_screen/organization_event_screen/organization_event_widget.dart';
+import '../../home_screen/desc_news_screen/desc_news_model.dart';
+import '../../home_screen/desc_news_screen/desc_news_widget.dart';
 import '../../home_screen/home_widget.dart';
 import '../../profile_screen/profile_model.dart';
 import '../../profile_screen/profile_widget.dart';
@@ -58,6 +60,12 @@ class ScreenFactory {
     return ChangeNotifierProvider(
       create: (_) => HomeModel(),
       child: HomeWidget(),
+    );
+  }
+  Widget makeNewsID(int ID) {
+    return ChangeNotifierProvider(
+      create: (_) => NewsIDModel(ID),
+      child: DescNewsWidget(),
     );
   }
 
