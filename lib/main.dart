@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youth_tourism_ayva/start_screen/first_screen.dart';
 import 'auth_screen/auth_start_widget.dart';
 import 'home_screen/home_widget.dart';
 import 'main_screen/main_widget.dart';
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const AuthStartWidget(),
+        '/': (context) => const FirstScreen(),
+        '/auth': (context) => const AuthStartWidget(),
         '/home': (context) => const HomePage(),
       },
-      // home: AuthStartWidget(),
+      // home: FirstScreen(),
     );
   }
 }

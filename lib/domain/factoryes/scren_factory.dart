@@ -17,6 +17,8 @@ import '../../home_screen/desc_news_screen/desc_news_widget.dart';
 import '../../home_screen/home_widget.dart';
 import '../../profile_screen/profile_model.dart';
 import '../../profile_screen/profile_widget.dart';
+import '../../residence_screen/desc_residence_screen/desc_residence_model.dart';
+import '../../residence_screen/desc_residence_screen/desc_residence_widget.dart';
 import '../../residence_screen/residence_model.dart';
 import '../../residence_screen/residence_widget.dart';
 
@@ -75,6 +77,7 @@ class ScreenFactory {
       child: ResidentsWidget(),
     );
   }
+
 
   Widget makeProfile() {
     return ChangeNotifierProvider(

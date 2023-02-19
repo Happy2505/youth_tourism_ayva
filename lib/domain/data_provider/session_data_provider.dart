@@ -2,37 +2,33 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 abstract class _Keys {
-  static const sessionId = 'session_id';
-  static const accountId = 'account_id';
+  static const name = 'name';
+  static const fam = 'fam';
+  static const number = 'number';
 }
 
 
 class SessionDataProvider {
   static const _secureStorage = FlutterSecureStorage();
 
-  Future<String?> getSessionId() => _secureStorage.read(key: _Keys.sessionId);
+  Future<String?> getname() => _secureStorage.read(key: _Keys.name);
 
-  Future<void> setSessionId(String value) {
-    return _secureStorage.write(key: _Keys.sessionId, value: value);
+  Future<void> setname(String value) {
+    return _secureStorage.write(key: _Keys.name, value: value);
   }
 
-  Future<void> deleteSessionId() {
-    return _secureStorage.delete(key: _Keys.sessionId);
-  }
 
-  Future<int?> getAccountId() async {
-    final id = await _secureStorage.read(key: _Keys.accountId);
-    return id != null ? int.tryParse(id) : null;
+  Future<void> setfam(String value) {
+    return _secureStorage.write(key: _Keys.fam, value: value);
   }
+  Future<String?> getfam() => _secureStorage.read(key: _Keys.fam);
 
-  Future<void> setAccountId(int value) {
-    return _secureStorage.write(
-      key: _Keys.accountId,
-      value: value.toString(),
-    );
-  }
 
-  Future<void> deleteAccountId() {
-    return _secureStorage.delete(key: _Keys.accountId);
+
+  Future<void> setnum(String value) {
+    return _secureStorage.write(key: _Keys.number, value: value);
   }
+  Future<String?> getnum() => _secureStorage.read(key: _Keys.number);
+
+
 }

@@ -29,7 +29,7 @@ class _EventsScreenWidgetState extends State<EventsScreenWidget>
   Widget build(BuildContext context) {
     final model = context.watch<EventsModel>();
     final _screenFactory = ScreenFactory();
-    if (model.events.isEmpty && model.sciences.isEmpty) SizedBox();
+    if (model.events.isEmpty || model.sciences.isEmpty) SizedBox.shrink();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(

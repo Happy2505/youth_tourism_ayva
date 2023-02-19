@@ -21,10 +21,11 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   int activeIndex = 0;
   final _screenFactory = ScreenFactory();
-
+  bool check = true;
   @override
   Widget build(BuildContext context) {
     final model = context.watch<HomeModel>();
+    if(model.news.isEmpty) SizedBox.shrink();
     return SafeArea(
         child: Scaffold(
       backgroundColor: AppColors.GreenColor,
@@ -66,7 +67,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         children: [
                           const SizedBox(height: 10),
                           Visibility(
-                            visible: false,
+                            visible: check,
                             replacement: RandomRes(),
                             child: Container(
                               height: 174,
@@ -106,7 +107,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                   fontWeight: FontWeight.w500)),
                                           SizedBox(height: 20),
                                           ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              setState(() {
+                                                check = false;
+                                              });
+                                            },
                                             style: ButtonStyle(
                                                 shape: MaterialStateProperty.all<
                                                         RoundedRectangleBorder>(
@@ -223,7 +228,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: const EdgeInsets.only(top: 10),
-                            itemCount: model.news[0].list.length,
+                            itemCount: model.news[0].list.length ==0? 0:model.news[0].list.length,
                             itemBuilder: (BuildContext context, int index) {
                               final news = model.news[0].list[index];
                               return InkWell(

@@ -131,9 +131,9 @@ class _ARScreenWidgetState extends State<ARScreenWidget> {
       if (didAddAnchor!) {
         anchors.add(newAnchor);
         var newNode = ARNode(
-            type: NodeType.localGLTF2,
+            type: NodeType.fileSystemAppFolderGLB,
             uri:
-            "assets/new_award.glb",
+            "models/new_award.glb",
             scale: Vector3(1, 1, 1),
             position: Vector3(0.0, 0.0, 0.0),
             rotation: Vector4(1.0, 0.0, 0.0, 0.0));

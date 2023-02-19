@@ -234,9 +234,9 @@ class _FavoriteWidgetState extends State<FavoriteWidget>  with SingleTickerProvi
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.of(context).push(CupertinoPageRoute(
-                                builder: (context) =>
-                                DescEventScreenWidget()));
+                            // Navigator.of(context).push(CupertinoPageRoute(
+                            //     builder: (context) =>
+                            //     DescEventScreenWidget()));
                           },
                           child: Row(
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,

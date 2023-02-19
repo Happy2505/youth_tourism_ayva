@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:youth_tourism_ayva/residence_screen/residence_model.dart';
 
 import '../Theme/app_color.dart';
 import 'desc_residence_screen/desc_residence_widget.dart';
@@ -9,6 +11,8 @@ class ResidentsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<ResidenceModel>();
+    if(model.logings.isEmpty) SizedBox.shrink();
     return SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -83,8 +87,9 @@ class ResidentsWidget extends StatelessWidget {
                           childAspectRatio: 0.65,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 11),
-                      itemCount: 8,
+                      itemCount: model.logings[0].list.length,
                       itemBuilder: (BuildContext context, index) {
+                        final logings = model.logings[0].list[index];
                         return InkWell(
                           onTap: () {
                             Navigator.of(context).push(CupertinoPageRoute(
@@ -102,7 +107,12 @@ class ResidentsWidget extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                                 12),
-                                            color: Colors.black12
+                                            color: Colors.black12,
+                                          image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image:
+                                            NetworkImage(logings.images[0].url),
+                                          ),
                                           // gradient: const LinearGradient(
                                           //     colors: [
                                           //       Color.fromARGB(0, 255, 255, 255),
@@ -161,8 +171,8 @@ class ResidentsWidget extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 5),
-                              const Text(
-                                "Студенческое общежитие ПВГУС",
+                              Text(
+                                logings.name,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -172,8 +182,8 @@ class ResidentsWidget extends StatelessWidget {
                                     height: 1.2,
                                     letterSpacing: 0.1),
                               ),
-                              const Text(
-                                "от 3 до 10 дней",
+                              Text(
+                                "от ${logings.minStayDuration} до ${logings.maxStayDuration} дней",
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -184,16 +194,20 @@ class ResidentsWidget extends StatelessWidget {
                               ),
                               SizedBox(height: 5),
                               Row(
-                                children: const [
+                                children: [
                                   Icon(Icons.location_on_sharp,
                                       size: 18,
                                       color: Color.fromARGB(
                                           255, 130, 130, 130)),
-                                  Text(
-                                    'Тольятти',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(
-                                            255, 134, 134, 134)),
+                                  Expanded(
+                                    child: Text(
+                                      logings.university.city,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 134, 134, 134)),
+                                    ),
                                   )
                                 ],
                               ),

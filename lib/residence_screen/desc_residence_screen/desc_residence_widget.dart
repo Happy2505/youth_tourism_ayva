@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youth_tourism_ayva/residence_screen/desc_residence_screen/desc_residence_model.dart';
 
 import '../../Theme/app_color.dart';
+import '../application_residence_screen/application_residence_screen_widget.dart';
 
 class DescResidenceWidget extends StatefulWidget {
   const DescResidenceWidget({Key? key}) : super(key: key);
@@ -80,7 +83,10 @@ class _DescResidenceWidgetState extends State<DescResidenceWidget>
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => ApplicationResidenceScreenWidget()));
+              },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

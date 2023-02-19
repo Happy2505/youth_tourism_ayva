@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../notifications_screen/notifications_widget.dart';
 import 'achievements_screens/achievements_widget.dart';
 import 'achievements_screens/top_travelers_widget.dart';
 import 'application_in_profile/application_in_profile_widget.dart';
@@ -350,8 +351,8 @@ class ProfileWidget extends StatelessWidget {
                                       const Color.fromARGB(0, 1, 1, 1)),
                                   elevation: MaterialStateProperty.all(0)),
                               onPressed: () {
-                                // Navigator.of(context).push(_createRoute());
-                              },
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (context) => const NotificationsWidget()));                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
