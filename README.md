@@ -1,16 +1,4 @@
 # youth_tourism_ayva
 
-A new Flutter project.
+Данный проект был полностью реализован мной для хакатона «Молодёжный бит». Так как это хакатон, то на все про все давалось 3 дня работы, а работы было много, поэтому код не идеален)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
